@@ -41,15 +41,9 @@ const OrderDetail = () => {
       setOrder((prev) => ({ ...prev, whatsappNotification: res.whatsappNotification }));
       alert('✅ WhatsApp message sent');
     } catch (err) {
-      // 409 = already sent; 400 + needsConsent = consent not recorded yet.
-      // Both are recoverable, so offer a confirm instead of an error.
-      if (err.status === 409) {
-        setWhatsappPrompt({
-          title: 'Already sent',
-          message: 'This order has already been sent to WhatsApp. Send it again?',
-          options: { ...options, force: true },
-        });
-      } else if (err.status === 400 && err.payload?.needsConsent) {
+      // 400 + needsConsent = consent not recorded yet. That's recoverable, so
+      // offer a confirm instead of an error.
+      if (err.status === 400 && err.payload?.needsConsent) {
         setWhatsappPrompt({
           title: 'Confirm customer consent',
           message:
