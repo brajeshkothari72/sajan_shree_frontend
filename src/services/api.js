@@ -1,5 +1,5 @@
 // services/api.js
-const API_BASE_URL = `${(import.meta.env.VITE_API_URL || "https://sajanshree-backend-ngnf.onrender.com")}/api`;
+const API_BASE_URL = `${(import.meta.env.VITE_API_URL || "https://sajanshree-backend-1.onrender.com")}/api`;
 
 class ApiService {
   async request(endpoint, options = {}) {
