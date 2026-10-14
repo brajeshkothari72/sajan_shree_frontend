@@ -175,11 +175,47 @@ class ApiService {
     });
   }
 
-  // Dispatch slips: which phones may use the counter page.
-  //
-  // The slip page itself does NOT go through this client - it is served by the
-  // backend and authenticates with its own device cookie, not the owner's JWT.
-  // These three are the owner's side of it.
+
+  // Dispatch slips: the actual bills / upload / send workflow, reachable from
+  // the admin panel on the owner's own JWT. Same backend routes the counter
+  // phone uses - the server tells a phone's device cookie apart from the
+  // owner's token, so this needs nothing special beyond calling them.
+  getCounterBills() {
+    return this.request("/counter/bills");
+  }
+
+  uploadCounterSlip(voucherNumber, base64) {
+    return this.request("/counter/slips", {
+      method: "POST",
+      body: JSON.stringify({ voucherNumber, base64 }),
+    });
+  }
+
+  requestCounterSend(voucherNumber, partyLedgerName) {
+    return this.request("/counter/send", {
+      method: "POST",
+      body: JSON.stringify({ voucherNumber, partyLedgerName }),
+    });
+  }
+
+  getCounterSendStatus(voucherNumber) {
+    return this.request(`/counter/send-status?v=${encodeURIComponent(voucherNumber)}`);
+  }
+
+  // An <img src> cannot carry an Authorization header, and this call is
+  // cross-origin (dashboard host calling the backend host), so there is no
+  // cookie either. Fetched as a blob instead and handed back as an object URL
+  // the caller can drop straight into an <img>.
+  async getCounterSlipImageUrl(voucherNumber) {
+    const token = localStorage.getItem("token");
+    const resp = await fetch(
+      `${API_BASE_URL}/counter/slip-image?v=${encodeURIComponent(voucherNumber)}`,
+      { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+    );
+    if (!resp.ok) throw new Error("No slip on that bill.");
+    return URL.createObjectURL(await resp.blob());
+  }
+
   getCounterDevices() {
     return this.request("/counter/devices");
   }

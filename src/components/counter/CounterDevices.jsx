@@ -8,7 +8,8 @@
 // a trusted device you cannot see or revoke is just a password you have lost
 // track of.
 import React, { useEffect, useState } from 'react';
-import { Smartphone, Link2, Copy, Check, ShieldOff, RefreshCw, ExternalLink } from 'lucide-react';
+import DispatchBills from './DispatchBills';
+import { Smartphone, Link2, Copy, Check, ShieldOff, RefreshCw, ExternalLink, FileText, Users2 } from 'lucide-react';
 import api from '../../services/api';
 
 const SLIP_PAGE = `${import.meta.env.VITE_API_URL || 'https://backend.sajanshreegarments.in'}/slips`;
@@ -27,6 +28,7 @@ const CounterDevices = () => {
   const [invite, setInvite] = useState(null);
   const [copied, setCopied] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [tab, setTab] = useState('bills');
 
   const load = async () => {
     try {
@@ -103,6 +105,31 @@ const CounterDevices = () => {
         </a>
       </div>
 
+      <div className="flex gap-2 border-b border-gray-200">
+        <button
+          onClick={() => setTab('bills')}
+          className={`flex items-center px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
+            tab === 'bills' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <FileText className="w-4 h-4 mr-2" />
+          Today's Bills
+        </button>
+        <button
+          onClick={() => setTab('devices')}
+          className={`flex items-center px-4 py-2 text-sm font-medium border-b-2 -mb-px ${
+            tab === 'devices' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+          }`}
+        >
+          <Users2 className="w-4 h-4 mr-2" />
+          Registered Phones
+        </button>
+      </div>
+
+      {tab === 'bills' && <DispatchBills />}
+
+      {tab === 'devices' && (
+      <>
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 rounded-md px-4 py-3 text-sm">{error}</div>
       )}
@@ -238,6 +265,8 @@ const CounterDevices = () => {
         orders, customers, users or anything else in this dashboard — so a phone left on a counter is not a
         way into the business. If one is lost, revoke it here and it stops working immediately.
       </p>
+      </>
+      )}
     </div>
   );
 };

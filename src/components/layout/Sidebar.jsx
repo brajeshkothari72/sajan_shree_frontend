@@ -21,7 +21,7 @@ const Sidebar = ({ expanded, mobile, onClose }) => {
   ];
 
   // Temporarily showing only Dashboard + Orders; other tabs stay defined above, just hidden.
-  const VISIBLE_PATHS = ['/dashboard', '/orders'];
+  const VISIBLE_PATHS = ['/dashboard', '/orders', '/dispatch'];
   const visibleNavItems = navItems.filter((item) => VISIBLE_PATHS.includes(item.path));
 
   const showLabels = expanded || mobile;
