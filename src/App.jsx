@@ -28,6 +28,7 @@ import PaymentTracking from "./components/invoicing/PaymentTracking";
 import Reports from "./components/reports/Reports";
 import UserManagement from "./components/users/UserManagement";
 import UserForm from "./components/users/UserForm";
+import CounterDevices from "./components/counter/CounterDevices";
 import { AuthProvider } from "./contexts/AuthContext";
 import { DataProvider } from "./contexts/DataContext";
 import Login from "./components/auth/Login";
@@ -83,6 +84,8 @@ function App() {
                 <Route path="payments" element={<PaymentTracking />} />
 
                 <Route path="reports" element={<Reports />} />
+
+                <Route path="dispatch" element={<CounterDevices />} />
 
                 <Route path="users" element={<UserManagement />} />
                 <Route path="users/new" element={<UserForm />} />

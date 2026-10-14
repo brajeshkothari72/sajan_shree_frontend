@@ -175,6 +175,28 @@ class ApiService {
     });
   }
 
+  // Dispatch slips: which phones may use the counter page.
+  //
+  // The slip page itself does NOT go through this client - it is served by the
+  // backend and authenticates with its own device cookie, not the owner's JWT.
+  // These three are the owner's side of it.
+  getCounterDevices() {
+    return this.request("/counter/devices");
+  }
+
+  createCounterInvite(label) {
+    return this.request("/counter/invites", {
+      method: "POST",
+      body: JSON.stringify({ label }),
+    });
+  }
+
+  revokeCounterDevice(id) {
+    return this.request(`/counter/devices/${id}/revoke`, {
+      method: "POST",
+    });
+  }
+
   // Add more API methods as needed...
 }
 

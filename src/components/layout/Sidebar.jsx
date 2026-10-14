@@ -2,7 +2,7 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
   Home, Package, ShoppingCart, Boxes, Factory,
-  Users, Truck, FileText, BarChart, UserCheck, X
+  Users, Truck, FileText, BarChart, UserCheck, Smartphone, X
 } from 'lucide-react';
 
 const Sidebar = ({ expanded, mobile, onClose }) => {
@@ -16,6 +16,7 @@ const Sidebar = ({ expanded, mobile, onClose }) => {
     { path: '/suppliers', name: 'Suppliers', icon: Truck },
     { path: '/invoices', name: 'Invoicing', icon: FileText },
     { path: '/reports', name: 'Reports', icon: BarChart },
+    { path: '/dispatch', name: 'Dispatch Slips', icon: Smartphone },
     { path: '/users', name: 'Users', icon: UserCheck },
   ];
 
